@@ -1,0 +1,253 @@
+#include "conio.h"
+#include "iostream"
+#include "stdafx.h"
+using namespace std;
+
+typedef int tipoElem;
+const int MAX=50;
+
+class vector
+{
+protected:
+   tipoElem v[MAX];
+   int n;
+
+public:
+   vector(){
+	  n=0;	  
+   }
+
+void setElem(tipoElem x,int p){
+   v[p]=x;
+}
+
+int getElem(int p){
+  return v[p];
+}
+
+void setDim(int d){
+  n=d;
+}
+
+int getDim(){
+  return n;
+}
+
+void leer();
+void imprimir();
+bool vacio()
+{ return n==0; }
+
+bool lleno()
+{ return n==MAX; }
+void eliminarUlt(int p)
+{ eliminar(n-1); }
+
+void insertar(tipoElem x,int p);
+void insertarUlt(tipoElem x)
+{ insertar(x,n); }
+
+void insertarPri(tipoElem x)
+{ insertar(x,0); }
+
+void eliminar(int p);
+
+void eliminarUlt()
+{ eliminar(n-1); }
+
+void eliminarPri()
+{ eliminar(0); }
+
+void eliminarRepetidos();
+void eliminarNoRepetidos();
+};
+void vector::leer()
+{
+	cout<<"Cantidad elementos:";
+	cin>>n;
+	for(int i=0;i<n;i++){
+	  cout<<"Elem["<<i<<"]="; 
+	  cin>>v[i];
+	}
+}
+
+void vector::imprimir()
+{
+	for(int i=0;i<getDim();i++) {
+	  cout<<getElem(i)<<"  ";
+	}
+	cout<<endl;
+}
+
+void vector::insertar(tipoElem x, int p){
+  if(p<0 || p > n) {	  
+	  cout<<"Posicion no valida...!!!";
+	  return ;
+  } 
+  if(lleno()){
+     cout<<"Vector lleno...!!!";
+	 return ;
+  }	 
+	int k=n-1;
+	while(k>=p){
+	   v[k+1]=v[k];
+	   k--;
+	}
+	 v[p]=x;
+	 n=n + 1;	
+}
+
+void vector::eliminar(int p){
+  if(p<0 || p >= n) {	  
+	  cout<<"Posicion no valida...!!!";
+	  return ;
+  } 
+  if(vacio()){
+     cout<<"Vector vacio...!!!";
+	 return ;
+  }	 
+	int k=p + 1;
+	while(k < n){
+	   v[k-1]=v[k];
+	   k++;
+	}	 
+	 n=n - 1;	
+}
+
+void vector::eliminarRepetidos(){
+	for(int i=0;i<n;i++){
+	 int j=i+1;
+	 while(j < n){
+	   if(v[i]==v[j])
+		   eliminar(j);
+	   else
+		   j=j + 1;
+	 }
+	}
+}
+
+
+
+
+#include "vector.h"
+#include "conio.h"
+#include "iostream"
+#include "stdafx.h"
+using namespace std;
+
+class conjunto:public vector
+{
+public:
+	bool pertenece(int x);
+	void Union(conjunto A, conjunto B);
+	void diferencia(conjunto A, conjunto B);
+	conjunto diferenciap(conjunto A);
+	void diferenciasimetrica(conjunto A, conjunto B);
+	conjunto DiferenciaSimetrica2(conjunto A);
+};
+
+bool conjunto::pertenece(int x){
+int i=0;
+while(i<n){
+	if(x==v[i])
+	  return true ;
+	
+	else
+	
+	i=i+1;
+	}
+return false;
+}
+
+
+void conjunto::Union(conjunto A, conjunto B){
+	for(int i=0; i<A.getDim(); i++){
+				{insertarUlt(A.getElem(i));
+				insertarUlt(B.getElem(i));
+				}
+				eliminarRepetidos();
+	}
+}
+
+
+void conjunto::diferencia(conjunto A, conjunto B){
+
+	for(int i=0; i<A.getDim(); i++){
+	   if(!B.pertenece(A.getElem(i)))
+              insertarUlt(A.getElem(i));
+	
+
+	}
+
+}
+
+conjunto conjunto::diferenciap(conjunto A){
+
+	conjunto C;
+
+	for(int i=0; i<A.getDim();i++){
+	
+    	if(!pertenece(A.getElem(i)))
+	
+	     C.insertarUlt(A.getElem(i));
+	}
+
+	return C;
+}
+
+void conjunto::diferenciasimetrica(conjunto A,conjunto B){
+{
+	for (int i = 0; i < A.getDim(); i++)
+	{
+		if (B.pertenece(A.getElem(i))==false)
+			insertarUlt(A.getElem(i));
+	}
+
+	for (int i = 0; i < B.getDim(); i++) {
+		if (A.pertenece(B.getElem(i)) == false)
+			insertarUlt(B.getElem(i));
+	}
+}
+
+}
+
+conjunto conjunto::DiferenciaSimetrica2(conjunto A) {
+	conjunto C;
+	for (int i = 0; i < A.getDim(); i++)
+	{
+		if (!pertenece(A.getElem(i)))
+			C.insertarUlt(A.getElem(i));
+	}
+	for (int i = 0; i < getDim(); i++) {
+		if (!A.pertenece(getElem(i)))
+			C.insertarUlt(getElem(i));
+	}
+
+	return C;
+}
+
+
+// practico5ejer2.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "conjunto.h"
+#include "conio.h"
+#include "iostream"
+ using namespace std;
+
+
+ void main(){
+ 
+ conjunto A,B,C;
+ A.leer();
+ B.leer();
+ //E.diferenciasimetrica(A,B);
+ //E.imprimir();
+ C=B.DiferenciaSimetrica2(A);
+ C.imprimir();
+
+ getch();
+ 
+ 
+ }
