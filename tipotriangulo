@@ -1,0 +1,112 @@
+#include <iostream>
+#include "math.h"
+
+using namespace std;
+
+class punto {
+protected:
+	int x;
+	int y;
+public:
+	punto() {
+		x = 0;
+		y = 0;
+	}
+
+	void setX(int a) {
+		x = a;
+	}
+
+	void setY(int b) {
+		y = b;
+	}
+
+	int getX() {
+		return x;
+	}
+	int getY() {
+		return y;
+	}
+
+	void leer() {
+		int x, y;
+		cout << "X="; cin >> x;
+		setX(x);
+		cout << "Y="; cin >> y;
+		setY(y); cout << endl;
+	}
+
+	void mostrar() {
+		cout << "Punto ";
+		cout << "X = " << x;
+		cout << "Y = " << y << endl;
+	}
+	float distancia(punto p2){
+	float d;
+	d=sqrt(powf(p2.getX()-getX(),2)+powf(p2.getY()-getY(),2));
+	return d;
+	}
+};
+
+#include "stdafx.h"
+#include <iostream>
+#include "Recta.h" 
+
+using namespace std;
+
+class triangulo : public Recta {
+	private:
+		punto p1;
+		punto p2; 
+		punto p3;
+
+	public:
+		void leer() {
+			cout<<"-----Punto 1-----"<<endl;
+			p1.leer();
+			cout<<"-----Punto 2-----"<<endl;
+			p2.leer();
+			cout<<"-----Punto 3-----"<<endl;
+			p3.leer();
+		}
+
+		void mostrar() {
+			cout << endl << "Punto 1: "<<endl; p1.mostrar();
+			cout << endl << "Punto 2: "<<endl; p2.mostrar();
+			cout << endl << "Punto 3: "<<endl; p3.mostrar();
+			//cout << endl << "Punto 3: "<<endl; p1.mostrar();
+		}
+
+
+		bool equilatero(){
+			return (p1.distancia(p2)==p2.distancia(p3)==p3.distancia(p1));
+		}
+
+		bool isosceles(){
+			if ((p1.distancia(p2)==p2.distancia(p3)!=p3.distancia(p1))||(p2.distancia(p3)==p3.distancia(p1)!=p1.distancia(p2))
+				||(p1.distancia(p2)==p3.distancia(p1)!=p2.distancia(p3)))
+				return true;
+		}
+
+};
+
+#include "stdafx.h"
+#include "triangulo.h"
+#include <conio.h>
+
+using namespace std;
+void main()
+{
+	triangulo t1;
+    t1.leer();
+	t1.mostrar();
+	if(t1.equilatero())
+	{cout<<"es equilatero";}
+	if(t1.isosceles())
+	{cout<<"es isosceles";}
+
+
+	_getch();
+  }
+
+
