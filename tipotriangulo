@@ -50,11 +50,11 @@ public:
 
 #include "stdafx.h"
 #include <iostream>
-#include "Recta.h" 
+#include "Punto.h" 
 
 using namespace std;
 
-class triangulo : public Recta {
+class triangulo : public Punto {
 	private:
 		punto p1;
 		punto p2; 
